@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      ul,
+      li {
+        list-style: none;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 10px auto 0;
+        padding: 20px;
+        box-shadow: 0 0 4px #ccc;
+        border-radius: 4px;
+      }
+      /* h1 {
+      margin: 20px 0;
+    } */
+      .tab-header {
+        margin: 10px 0;
+        font-weight: 500;
+        position: relative;
+      }
+      .tab-header li {
+        display: inline-block;
+
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+      .tab-header li.active {
+        color: #409eff;
+      }
+      .tab-header .underline {
+        position: absolute;
+        left: 0;
+        top: 25px;
+        height: 2px;
+        /* width: 65px; */
+        background: #409eff;
+        transition: all 0.3s;
+      }
+
+      .tab-panel .tab-content {
+        display: none;
+      }
+      .tab-panel .tab-content.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Tab选项卡</h1>
+      <div class="tab-header">
+        <ul>
+          <li class="tab-item active">用户信息管理</li>
+          <li class="tab-item">配置管理</li>
+          <li class="tab-item">角色管理</li>
+          <li class="tab-item">定时任务补偿</li>
+        </ul>
+        <div class="underline"></div>
+      </div>
+      <div class="tab-panel">
+        <div class="tab-content active">用户管理</div>
+        <div class="tab-content">配置管理</div>
+        <div class="tab-content">角色管理</div>
+        <div class="tab-content">定时任务补偿</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>Tab选项卡</h1>
+      <div class="tab-header">
+        <ul>
+          <li class="tab-item active">用户信息管理</li>
+          <li class="tab-item">配置管理</li>
+          <li class="tab-item">角色管理</li>
+          <li class="tab-item">定时任务补偿</li>
+        </ul>
+        <div class="underline"></div>
+      </div>
+      <div class="tab-panel">
+        <div class="tab-content active">用户管理</div>
+        <div class="tab-content">配置管理</div>
+        <div class="tab-content">角色管理</div>
+        <div class="tab-content">定时任务补偿</div>
+      </div>
+    </div>
+    <script>
+      // const $$tabs = [...$$(".tab-header .tab-item")];
+      // const $$contents = [...$$(".tab-panel .tab-content")];
+      // const $line = $(".underline");
+
+      // $line.style.width = $$tabs[0].offsetWidth + "px";
+
+      // $$tabs.forEach(function ($tab, index) {
+      //   $tab.onclick = function () {
+      //     $$tabs.forEach(($tab) => $tab.classList.remove("active"));
+      //     this.classList.add("active");
+      //     $line.style.width = this.offsetWidth + "px";
+      //     $line.style.left = this.offsetLeft + "px";
+
+      //     $$contents.forEach(($content) => $content.classList.remove("active"));
+      //     $$contents[index].classList.add("active");
+      //   };
+      // });
+
+      class Tab {
+        constructor($container) {
+          this.$$tabs = $container.querySelectorAll(".tab-header .tab-item");
+          this.$$contents = $container.querySelectorAll(
+            ".tab-panel .tab-content"
+          );
+          this.$line = $container.querySelector(".tab-header .underline");
+
+          this.init();
+          this.bind();
+        }
+
+        init() {
+          this.$line.style.width = this.$$tabs[0].offsetWidth + "px";
+        }
+
+        bind() {
+          const _self = this;
+          this.$$tabs.forEach(function ($tab, index) {
+            $tab.onclick = function () {
+              _self.$$tabs.forEach(($tab) => $tab.classList.remove("active"));
+              this.classList.add("active");
+              _self.$line.style.width = this.offsetWidth + "px";
+              _self.$line.style.left = this.offsetLeft + "px";
+
+              _self.$$contents.forEach(($content) =>
+                $content.classList.remove("active")
+              );
+              _self.$$contents[index].classList.add("active");
+            };
+          });
+        }
+      }
+
+      Array.from(document.querySelectorAll(".container")).forEach(
+        (container) => new Tab(container)
+      );
+    </script>
+  </body>
+</html>
